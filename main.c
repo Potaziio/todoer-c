@@ -66,6 +66,7 @@ void ReportTodo(File file) {
 
     fclose(fp);
     if (line)
+                        
         free(line);
 }
 
@@ -90,8 +91,11 @@ void ReadIgnoreFile(char* start_path, int* ignore_size, char** ignores) {
             if (line[strlen(line)-2] == '/') {
                 line[strlen(line)-1] = '\0';
             }
+
             ignores[linecount] = line;
             ignores[linecount][strlen(ignores[linecount])-1] = 0;
+
+            line = 0;
 
             linecount++;
         }
@@ -151,6 +155,8 @@ int main(int args, char** argc) {
     char** ignores = (char**)malloc(sizeof(char*) * 20);
     ReadIgnoreFile(".", &ignore_size, ignores);
     RecursiveSearch(".", ignores, ignore_size);
+
+    free(ignores);
 
     return 0; 
 }
